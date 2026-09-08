@@ -37,8 +37,8 @@
 
 ```text
 ┌─────────────────────────┐             ┌─────────────────────────┐               ┌─────────────────────────┐
-│ ① 수집 계층 (Collector)  │    적재     │  ② 저장 계층 (Warehouse) │     조회      │ ③ 화면 계층 (Dashboard)│
-│  python -m collector    │ ─────────▶ │  MariaDB / MySQL DB      │  ◀─────────  │ streamlit run app/... │
+│ ① 수집 계층 (Collector)  │    적재     │  ② 저장 계층 (Warehouse) │     조회      │ ③ 화면 계층 (Dashboard) │
+│  python -m collector    │ ─────────▶ │  MariaDB / MySQL DB      │  ◀─────────  │ streamlit run app/...  │
 │  (API 수집/정제/UPSERT)  │   (쓰기)    │  (원본 Layer ➔ 마트)    │    (읽기)     │  (캐싱 전용, 읽기전용)   │
 └─────────────────────────┘             └─────────────────────────┘               └─────────────────────────┘
 ```
