@@ -1,0 +1,11 @@
+streamlit
+pandas
+matplotlib
+plotly
+seaborn
+numpy
+sqlalchemy
+faker
+pymysql
+python-dotenv
+requests
