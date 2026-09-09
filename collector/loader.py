@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from .config import DONGDAEMUN_DONG_CODES
+import streamlit as st
 
 def get_db_engine():
     """기존 미니프로젝트1 RDBMS 자산을 그대로 연결"""
@@ -15,13 +16,16 @@ def get_db_engine():
     
 
     # 미니프로젝트 1번에서 검증 완료한 패스워드 구조 적용
+    db_user = os.getenv("DB_USERNAME")
+    db_host = os.getenv("DB_HOST")
+    db_name = os.getenv("DB_NAME")
     db_password = os.getenv("PASSWORD")
     if not db_password:
         raise ValueError(".env 파일에서 PASSWORD를 찾을 수 없습니다. 패스워드를 설정해주세요.")
     
     safe_password = urllib.parse.quote_plus(db_password)  
     
-    db_url = f'mysql+pymysql://analyst:{safe_password}@localhost:3306/housing_db?local_infile=1'
+    db_url = f"mysql+pymysql://{db_user}:{safe_password}@{db_host}:3306/{db_name}?local_infile=1"
     engine = sqlalchemy.create_engine(db_url)
     return engine
 
