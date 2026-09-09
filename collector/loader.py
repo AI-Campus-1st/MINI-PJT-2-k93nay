@@ -8,28 +8,32 @@ from dotenv import load_dotenv
 from .config import DONGDAEMUN_DONG_CODES
 
 def get_db_engine():
-    """기존 미니프로젝트1 RDBMS 자산을 그대로 로컬에 연결"""
-    # .env 로드 복원
+    """외부 클라우드 RDBMS(MySQL/MariaDB) 서버에 동적 연결"""
     env_path = Path(__file__).resolve().parent.parent / ".env"
     load_dotenv(dotenv_path=env_path)
 
-    # 미니프로젝트 1번에서 검증 완료한 패스워드 구조 적용
+    db_host = os.getenv("HOST", "3.34.91.166")
+    db_port = os.getenv("PORT", "3308")
+    db_user = os.getenv("DB_USER", "nykwon")
+    db_name = os.getenv("DB_NAME", "mini_db")
     db_password = os.getenv("PASSWORD")
+
     if not db_password:
         raise ValueError(
             ".env 파일에서 PASSWORD를 찾을 수 없습니다. 패스워드를 설정해주세요."
         )
 
+    # 특수문자가 포함된 패스워드 안전하게 인코딩 
     safe_password = urllib.parse.quote_plus(db_password)
 
-    # 최초의 로컬 MariaDB 3306 포트 연결 주소 복원
-    db_url = f"mysql+pymysql://analyst:{safe_password}@localhost:3306/housing_db?local_infile=1"
+    # 제공받은 외부 호스트와 포트를 조합하여 최종 db_url 빌드
+    db_url = f"mysql+pymysql://{db_user}:{safe_password}@{db_host}:{db_port}/{db_name}?local_infile=1"
     engine = sqlalchemy.create_engine(db_url)
     return engine
 
 
 def load_to_mysql(csv_path):
-    """[복원] 수집된 청년 생활인구 로컬 CSV 데이터를 로컬 MariaDB 서버에 안전하게 UPSERT 적재"""
+    """수집된 청년 생활인구 로컬 CSV 데이터를 로컬 MariaDB 서버에 안전하게 UPSERT 적재"""
     if not os.path.exists(csv_path):
         print(f"[적재 실패] 수집 파일 데이터가 경로에 존재하지 않습니다: {csv_path}")
         return
