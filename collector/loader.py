@@ -6,27 +6,18 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from .config import DONGDAEMUN_DONG_CODES
-import streamlit as st
 
 def get_db_engine():
-    """기존 미니프로젝트1 RDBMS 자산을 그대로 연결"""
-    # .env 로드 복원
-    env_path = Path(__file__).resolve().parent.parent / '.env'
-    load_dotenv(dotenv_path=env_path)
-    
+    """기존 MariaDB 자산을 이식한 가벼운 로컬 SQLite 파일로 연결"""
 
-    # 미니프로젝트 1번에서 검증 완료한 패스워드 구조 적용
-    db_user = os.getenv("DB_USERNAME")
-    db_host = os.getenv("DB_HOST")
-    db_name = os.getenv("DB_NAME")
-    db_password = os.getenv("PASSWORD")
-    if not db_password:
-        raise ValueError(".env 파일에서 PASSWORD를 찾을 수 없습니다. 패스워드를 설정해주세요.")
-    
-    safe_password = urllib.parse.quote_plus(db_password)  
-    
-    db_url = f"mysql+pymysql://{db_user}:{safe_password}@{db_host}:3306/{db_name}?local_infile=1"
-    engine = sqlalchemy.create_engine(db_url)
+    # 방법 A를 통해 생성된 'housing2.db' 파일 경로를 지정합니다.
+    db_url = "sqlite:///housing2.db"
+
+    # 스트림릿 멀티스레드 충돌 방지 옵션을 포함하여 엔진 생성
+    engine = sqlalchemy.create_engine(
+        db_url, connect_args={"check_same_thread": False}
+    )
+
     return engine
 
 def load_to_mysql(csv_path):
