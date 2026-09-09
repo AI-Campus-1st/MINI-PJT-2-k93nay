@@ -71,10 +71,10 @@ CREATE TABLE mart_youth_housing_priority (
     base_date               VARCHAR(8) NOT NULL,   -- 수집 기준일자 (Index)
     dong_code               VARCHAR(8) NOT NULL,   -- 8자리 행정동코드
     dong_name               VARCHAR(50) NOT NULL,  -- 행정동명
-    avg_youth_pop           DOUBLE,                -- 일평균 청년 생활인구 (절대 수요 규모)
+    avg_youth_pop           DOUBLE,                -- 일평균 청년 생활인구 (절대 수요)
     youth_occupancy_rate    DOUBLE,                -- 지표 1: 청년 생활인구 점유율 (상대적 밀도)
-    final_volume_score      DOUBLE,                -- 지표 2: 미니프로젝트1 가중치 반영 1,000점 정규화 규모 점수
-    final_priority_score    DOUBLE,                -- 지표 3: 상대밀도 X 절대규모 1,000점 만점 종합 점수
+    final_volume_score      DOUBLE,                -- 지표 2: 미니프로젝트1 가중치 반영 1,000점 정규화 규모 점수 (절대 수요 규모)
+    final_priority_score    DOUBLE,                -- 지표 3: 상대밀도 X 절대규모 1,000점 만점 종합 점수 (최종 점수)
     PRIMARY KEY (base_date, dong_code)
 );
 ```
