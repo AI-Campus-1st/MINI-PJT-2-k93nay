@@ -4,6 +4,7 @@
 * 작성자 : 권나영(analyst)
 * 과정명: 데이터 마트 연계 의사결정 시각화 미니프로젝트 2
 * 대상 청중: SH공사(서울주택도시공사) 청년주택본부
+* Streamlit 배포 : https://mini-pjt-2-k93nay-7nxekkopa749sgwfq4gaq7.streamlit.app/
 
 ------------------------------
 ## 1. 대상 청중과 핵심 의사결정 정의
